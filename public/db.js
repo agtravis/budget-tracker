@@ -3,9 +3,9 @@
 const pendingObjectStoreName = `pending`;
 
 // create a new db request for a "budget" database.
-const request = indexedDB.open(`budget`, 2);
+const request = indexedDB.open(`budget`, 3);
 
-request.onupgradeneeded = event => {
+request.onupgradeneeded = (event) => {
   const db = request.result;
 
   // create object store called "pending" and set autoIncrement to true
@@ -17,7 +17,7 @@ request.onupgradeneeded = event => {
   }
 };
 
-request.onsuccess = event => {
+request.onsuccess = (event) => {
   console.log(`Success! ${event.type}`);
   // check if app is online before reading from db
   if (navigator.onLine) {
@@ -25,7 +25,7 @@ request.onsuccess = event => {
   }
 };
 
-request.onerror = event => console.error(event);
+request.onerror = (event) => console.error(event);
 
 function checkDatabase() {
   const db = request.result;
@@ -46,10 +46,10 @@ function checkDatabase() {
         body: JSON.stringify(getAll.result),
         headers: {
           Accept: `application/json, text/plain, */*`,
-          'Content-Type': `application/json`
-        }
+          'Content-Type': `application/json`,
+        },
       })
-        .then(response => response.json())
+        .then((response) => response.json())
         .then(() => {
           // if successful, open a transaction on your pending db
           transaction = db.transaction([pendingObjectStoreName], `readwrite`);
